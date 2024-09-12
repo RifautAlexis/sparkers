@@ -1,4 +1,20 @@
-<!-- NG-ZORRO -->
-<a href="https://github.com/NG-ZORRO/ng-zorro-antd" target="_blank" style="display: flex;align-items: center;justify-content: center;height: 100%;width: 100%;">
-  <img height="300" src="https://img.alicdn.com/tfs/TB1X.qJJgHqK1RjSZFgXXa7JXXa-89-131.svg">
-</a>
+<nz-layout class="h-full">
+  <nz-header class="flex">
+    <img ngSrc="logoipsum.svg" width="200" height="64" priority class="mr-3">
+    <ul nz-menu nzTheme="dark" nzMode="horizontal">
+      <li nz-menu-item> nav 1 </li>
+      <li nz-menu-item> nav 2 </li>
+      <li nz-menu-item> nav 3 </li>
+    </ul>
+  </nz-header>
+  <nz-layout>
+    <nz-sider nzWidth="200px">
+      <ul nz-menu nzMode="inline">
+        <li nz-menu-item> Users </li>
+      </ul>
+    </nz-sider>
+    <nz-layout>
+      <nz-content>Content</nz-content>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>

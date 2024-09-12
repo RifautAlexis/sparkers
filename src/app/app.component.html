@@ -1,11 +1,13 @@
 <nz-layout class="h-full">
-  <nz-header class="flex">
+  <nz-header class="flex justify-between">
     <img ngSrc="logoipsum.svg" width="200" height="64" priority class="mr-3">
-    <ul nz-menu nzTheme="dark" nzMode="horizontal">
-      <li nz-menu-item> nav 1 </li>
-      <li nz-menu-item> nav 2 </li>
-      <li nz-menu-item> nav 3 </li>
-    </ul>
+    <span
+      nz-icon
+      nzTheme="fill"
+      [id]="themeIcon()"
+      [nzType]="themeIcon()"
+      (click)="toggleTheme()"
+    ></span>
   </nz-header>
   <nz-layout>
     <nz-sider nzWidth="200px">

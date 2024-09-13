@@ -15,12 +15,6 @@ export class PartnerListComponent {
 
     Status = Status;
 
-    checked = signal(false);
-    indeterminate = signal(false);
-    listOfCurrentPageData = signal<Partner[]>([]);
-    listOfData = signal<Partner[]>([]);
-    setOfCheckedId = new Set<number>();
-
     columnDefinitions: ColumnDefinition<Partner>[] = [
         {
             name: 'Name',

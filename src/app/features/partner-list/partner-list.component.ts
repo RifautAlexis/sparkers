@@ -5,11 +5,12 @@ import { NzTableModule, } from 'ng-zorro-antd/table';
 import { Partner } from './models/partner';
 import { ColumnDefinition } from "../../shared/models/column-definition";
 import { COUNTRY } from '../../shared/models/country';
+import { CountryPipe } from '../../shared/models/pipelines/country.pipe';
 
 @Component({
     standalone: true,
     templateUrl: './partner-list.component.html',
-    imports: [NzTableModule],
+    imports: [NzTableModule, CountryPipe],
 })
 export class PartnerListComponent {
     readonly store = inject(PartnerListStoreService);

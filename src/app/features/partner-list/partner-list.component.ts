@@ -7,11 +7,19 @@ import { ColumnDefinition } from "../../shared/models/column-definition";
 import { COUNTRY } from '../../shared/models/country';
 import { CountryPipe } from '../../shared/models/pipelines/country.pipe';
 import { DatePipe } from '@angular/common';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
     standalone: true,
     templateUrl: './partner-list.component.html',
-    imports: [NzTableModule, CountryPipe, DatePipe],
+    styles: [
+        `
+            [nz-icon] {
+                font-size: 20px;
+            }
+        `,
+    ],
+    imports: [NzTableModule, CountryPipe, DatePipe, NzIconModule],
 })
 export class PartnerListComponent {
     readonly store = inject(PartnerListStoreService);
@@ -27,6 +35,7 @@ export class PartnerListComponent {
             filterFn: null,
             sortDirections: ['ascend', 'descend', null],
             filterMultiple: true,
+            width: null,
         },
         {
             name: 'Reference',
@@ -36,6 +45,7 @@ export class PartnerListComponent {
             filterFn: null,
             sortDirections: ['ascend', 'descend', null],
             filterMultiple: true,
+            width: null,
         },
         {
             name: 'Country',
@@ -45,6 +55,7 @@ export class PartnerListComponent {
             filterFn: (countriesSelected: string[], item: Partner) => countriesSelected.some(countrySelected => countrySelected === COUNTRY[item.locale]),
             sortDirections: ['ascend', 'descend', null],
             filterMultiple: true,
+            width: null,
         },
         {
             name: 'Expiration Date',
@@ -54,6 +65,17 @@ export class PartnerListComponent {
             filterFn: null,
             sortDirections: ['ascend', 'descend', null],
             filterMultiple: true,
+            width: null,
+        },
+        {
+            name: 'Actions',
+            sortOrder: null,
+            sortFn: null,
+            listOfFilter: [],
+            filterFn: null,
+            sortDirections: [null],
+            filterMultiple: false,
+            width: '150px',
         },
     ];
 

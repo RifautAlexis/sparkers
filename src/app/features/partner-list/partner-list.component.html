@@ -16,6 +16,7 @@
                 [nzShowFilter]="column.listOfFilter.length > 0"
                 [nzFilters]="column.listOfFilter"
                 [nzFilterFn]="column.filterFn"
+                [nzWidth]="column.width"
             >
                 {{column.name}}
             </th>
@@ -29,6 +30,11 @@
                 <td>{{ data.reference }}</td>
                 <td>{{ data.locale | country }}</td>
                 <td>{{ data.expirationTime | date }}</td>
+                <td nzAlign="center" class="space-x-5">
+                    <span nz-icon nzType="eye" nzTheme="twotone" nzTwotoneColor="green"></span>
+                    <span nz-icon nzType="edit" nzTheme="twotone" nzTwotoneColor="blue"></span>
+                    <span nz-icon nzType="delete" nzTheme="twotone" nzTwotoneColor="red"></span>
+                </td>
             </tr>
         }
     </tbody>

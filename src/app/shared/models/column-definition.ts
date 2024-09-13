@@ -8,4 +8,5 @@ export interface ColumnDefinition<T> {
   filterFn: NzTableFilterFn<T> | null;
   sortDirections: NzTableSortOrder[];
   filterMultiple: boolean;
+  width: string | null;
 }

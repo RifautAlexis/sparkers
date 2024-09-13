@@ -28,7 +28,7 @@
                 <td>{{ data.name }}</td>
                 <td>{{ data.reference }}</td>
                 <td>{{ data.locale | country }}</td>
-                <td>{{ data.expirationTime }}</td>
+                <td>{{ data.expirationTime | date }}</td>
             </tr>
         }
     </tbody>

@@ -2,20 +2,21 @@ import {
   ApplicationConfig,
   provideZoneChangeDetection,
   importProvidersFrom,
+  LOCALE_ID,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
-import en from '@angular/common/locales/en';
+import fr from '@angular/common/locales/fr';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { appInitializerProvider } from './services/app-initializer.service';
 import { httpIntercptor } from './interceptors/http.interceptors';
 
-registerLocaleData(en);
+registerLocaleData(fr);
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,5 +27,8 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(withInterceptors([httpIntercptor])),
     ...appInitializerProvider,
+    {
+      provide: LOCALE_ID, useValue: 'fr-FR'
+    },
   ],
 };

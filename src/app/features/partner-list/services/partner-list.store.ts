@@ -1,12 +1,18 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { State } from '../../../shared/models/state';
+import { StateWithPagination } from '../../../shared/models/state';
 import { Partner } from '../models/partner';
 import { Status } from '../../../shared/models/status';
 import { HttpPartnerListService } from './htpp-partner-list.service';
+import { state } from '@angular/animations';
 
-const initialState: State<Partner[]> = {
+const initialState: StateWithPagination<Partner[]> = {
     status: Status.Loading,
     data: undefined,
+    pagination: {
+        pageIndex: 1,
+        pageSize: 10,
+        total: 0,
+    }
 };
 
 @Injectable({
@@ -15,34 +21,58 @@ const initialState: State<Partner[]> = {
 export class PartnerListStoreService {
     private readonly httpPartnerListService = inject(HttpPartnerListService);
 
-    private readonly _state = signal<State<Partner[]>>(initialState);
+    private readonly _state = signal<StateWithPagination<Partner[]>>(initialState);
 
     // Selectors
     status = computed(() => this._state().status);
     partners = computed(() => this._state().data);
+    pageIndex = computed(() => this._state().pagination.pageIndex);
+    pageSize = computed(() => this._state().pagination.pageSize);
+    total = computed(() => this._state().pagination.total);
 
     init(): void {
         this.getPartners();
     }
 
-    private getPartners(): void {
+    getPartners(pageIndex: number = 1, pageSize: number = 10): void {
+
+        let offset = pageIndex === 1 ? 0 : (pageIndex * pageSize) - pageSize;
+
         this._state.update(data => ({
             ...data,
             status: Status.Loading,
+            pagination: {
+                ...data.pagination,
+                pageIndex: data.pagination.pageSize !== pageSize || offset >= data.pagination.total ? 1 : pageIndex,
+                pageSize,
+            }
         }));
 
-        this.httpPartnerListService.getPartners().subscribe(
+        if(offset >= this.total()) {
+            offset = 0;
+        } 
+    
+        this.httpPartnerListService.getPartners(
+            offset,
+            pageSize
+        ).subscribe(
             data => {
-                this._state.set({
+                this._state.update(state => ({
+                    ...state,
                     status: Status.Success,
-                    data
-                });
+                    data,
+                    pagination: {
+                        ...state.pagination,
+                        total: data.length
+                    }
+                }));
             },
             error => {
-                this._state.set({
+                this._state.update(state => ({
+                    ...state,
                     status: Status.Error,
                     data: undefined
-                });
+                }));
             }
         );
     }

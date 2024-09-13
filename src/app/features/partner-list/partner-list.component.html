@@ -1,9 +1,15 @@
 <h1 class="text-2xl font-bold">Partners</h1>
 <nz-table
     #partnersTable
+    nzShowPagination
     nzShowSizeChanger
     [nzData]="store.partners()!"
     [nzLoading]="store.status() === Status.Loading"
+    [nzPageSizeOptions]="[10, 20, 50]"
+    [nzPageIndex]="store.pageIndex()"
+    [nzPageSize]="store.pageSize()"
+    (nzPageIndexChange)="onPageIndexChange($event)"
+    (nzPageSizeChange)="onPageSizeChange($event)"
 >
     <thead>
       <tr>
@@ -31,7 +37,6 @@
                 <td>{{ data.locale | country }}</td>
                 <td>{{ data.expirationTime | date }}</td>
                 <td nzAlign="center" class="space-x-5">
-                    <span nz-icon nzType="eye" nzTheme="twotone" nzTwotoneColor="green"></span>
                     <span nz-icon nzType="edit" nzTheme="twotone" nzTwotoneColor="blue"></span>
                     <span nz-icon nzType="delete" nzTheme="twotone" nzTwotoneColor="red"></span>
                 </td>

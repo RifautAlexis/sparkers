@@ -4,6 +4,7 @@ import { PartnerListStoreService } from './services/partner-list.store';
 import { NzTableModule, } from 'ng-zorro-antd/table';
 import { Partner } from './models/partner';
 import { ColumnDefinition } from "../../shared/models/column-definition";
+import { COUNTRY } from '../../shared/models/country';
 
 @Component({
     standalone: true,
@@ -28,7 +29,7 @@ export class PartnerListComponent {
         {
             name: 'Reference',
             sortOrder: null,
-            sortFn: (a: Partner, b: Partner) => a.name.localeCompare(b.name),
+            sortFn: (a: Partner, b: Partner) => a.reference.localeCompare(b.reference),
             listOfFilter: [],
             filterFn: null,
             sortDirections: ['ascend', 'descend', null],
@@ -37,16 +38,16 @@ export class PartnerListComponent {
         {
             name: 'Country',
             sortOrder: null,
-            sortFn: null, // (a: Partner, b: Partner) => a.name.localeCompare(b.name),
-            listOfFilter: [],
-            filterFn: null, // (list: Partner[], item: Partner) => list.filter((partner) => partner.country === item.country)
+            sortFn: (a: Partner, b: Partner) => COUNTRY[a.locale].localeCompare(COUNTRY[b.locale]),
+            listOfFilter: Object.values(COUNTRY).map((country) => ({ text: country, value: country })),
+            filterFn: (countriesSelected: string[], item: Partner) => countriesSelected.some(countrySelected => countrySelected === COUNTRY[item.locale]),
             sortDirections: ['ascend', 'descend', null],
             filterMultiple: true,
         },
         {
             name: 'Expiration Date',
             sortOrder: null,
-            sortFn: (a: Partner, b: Partner) => a.name.localeCompare(b.name),
+            sortFn: (a: Partner, b: Partner) => a.expirationTime.localeCompare(b.expirationTime),
             listOfFilter: [],
             filterFn: null,
             sortDirections: ['ascend', 'descend', null],

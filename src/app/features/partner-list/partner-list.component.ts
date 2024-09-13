@@ -1,5 +1,5 @@
 import { Status } from './../../shared/models/status';
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { PartnerListStoreService } from './services/partner-list.store';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { Partner } from './models/partner';
@@ -8,6 +8,8 @@ import { COUNTRY } from '../../shared/models/country';
 import { CountryPipe } from '../../shared/models/pipelines/country.pipe';
 import { DatePipe } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { FormsModule } from '@angular/forms';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 @Component({
   standalone: true,
@@ -19,10 +21,14 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
       }
     `,
   ],
-  imports: [NzTableModule, CountryPipe, DatePipe, NzIconModule],
+  imports: [NzTableModule, CountryPipe, DatePipe, NzIconModule, FormsModule, NzInputModule],
 })
 export class PartnerListComponent {
   readonly store = inject(PartnerListStoreService);
+
+  searchValue = signal('');
+  visible = signal(true);
+  listOfDisplayData: Partner[] = [];
 
   Status = Status;
 
@@ -90,6 +96,24 @@ export class PartnerListComponent {
 
   constructor() {
     this.store.init();
+
+    effect(() => {
+      this.listOfDisplayData = this.store.partners() ?? [];
+    });
+
+    effect(() => {
+      if(!!this.store.partners()) {
+        this.listOfDisplayData = this.search(this.searchValue());
+      }
+    });
+  }
+
+  search(searchValue: string): Partner[] {
+    return this.store.partners()!.filter((item: Partner) => item.name.toLocaleLowerCase().indexOf(searchValue.toLocaleLowerCase()) !== -1);
+  }
+
+  reset(_: MouseEvent): void {
+    this.searchValue.set('');
   }
 
   onPageIndexChange(pageIndex: number): void {

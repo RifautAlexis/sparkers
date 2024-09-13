@@ -1,9 +1,27 @@
 <h1 class="text-2xl font-bold">Partners</h1>
+
+<nz-input-group [nzSuffix]="suffixTemplate" class="mb-3">
+    <input
+      type="text"
+      nz-input
+      placeholder="Search Name"
+      [ngModel]="searchValue()"
+      (ngModelChange)="searchValue.set($event)"
+    />
+</nz-input-group>
+<ng-template #suffixTemplate>
+<span
+    nz-icon
+    nzType="close"
+    (click)="reset($event)"
+></span>
+</ng-template>
+
 <nz-table
     #partnersTable
     nzShowPagination
     nzShowSizeChanger
-    [nzData]="store.partners()!"
+    [nzData]="listOfDisplayData"
     [nzLoading]="store.status() === Status.Loading"
     [nzPageSizeOptions]="[10, 20, 50]"
     [nzPageIndex]="store.pageIndex()"
@@ -43,4 +61,4 @@
             </tr>
         }
     </tbody>
-  </nz-table>
+</nz-table>

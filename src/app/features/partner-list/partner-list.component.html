@@ -56,7 +56,9 @@
                 <td>{{ data.expirationTime | date }}</td>
                 <td nzAlign="center" class="space-x-5">
                     <span nz-icon nzType="edit" nzTheme="twotone" nzTwotoneColor="blue"></span>
-                    <span nz-icon nzType="delete" nzTheme="twotone" nzTwotoneColor="red"></span>
+                    <app-confirm-async
+                        (confirmed)="onDelete(data.id)"
+                    ></app-confirm-async>
                 </td>
             </tr>
         }

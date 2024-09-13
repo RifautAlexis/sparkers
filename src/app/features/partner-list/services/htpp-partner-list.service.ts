@@ -20,4 +20,8 @@ export class HttpPartnerListService {
             }
         );
     }
+
+    deletePartner(id: number): Observable<void> {
+        return this.http.delete<void>(`c7d86698-7bf2-4968-b0f7-2f1d83635869/${id}`);//`979d68df-a634-439a-a759-f5449137ec5f/${id}`);
+    }
 }

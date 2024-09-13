@@ -4,6 +4,7 @@ import { Partner } from '../models/partner';
 import { Status } from '../../../shared/models/status';
 import { HttpPartnerListService } from './htpp-partner-list.service';
 import { state } from '@angular/animations';
+import { Observable } from 'rxjs';
 
 const initialState: StateWithPagination<Partner[]> = {
     status: Status.Loading,
@@ -73,6 +74,17 @@ export class PartnerListStoreService {
                     status: Status.Error,
                     data: undefined
                 }));
+            }
+        );
+    }
+
+    deletePartner(partnerId: number): void {
+        this.httpPartnerListService.deletePartner(partnerId).subscribe(
+            (_) => {
+                this.getPartners(this.pageIndex(), this.pageSize());
+            },
+            (error) => {
+                console.error(error);
             }
         );
     }

@@ -10,6 +10,8 @@ import { DatePipe } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { FormsModule } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { ConfirmAsyncComponent } from "../../shared/components/confirm-async/confirm-async.component";
+
 
 @Component({
   standalone: true,
@@ -21,7 +23,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
       }
     `,
   ],
-  imports: [NzTableModule, CountryPipe, DatePipe, NzIconModule, FormsModule, NzInputModule],
+  imports: [NzTableModule, CountryPipe, DatePipe, NzIconModule, FormsModule, NzInputModule, ConfirmAsyncComponent],
 })
 export class PartnerListComponent {
   readonly store = inject(PartnerListStoreService);
@@ -90,7 +92,7 @@ export class PartnerListComponent {
       filterFn: null,
       sortDirections: [null],
       filterMultiple: false,
-      width: '100px',
+      width: '125px',
     },
   ];
 
@@ -122,5 +124,9 @@ export class PartnerListComponent {
 
   onPageSizeChange(pageSize: number): void {
     this.store.getPartners(this.store.pageIndex(), pageSize);
+  }
+
+  onDelete(partnerId: number): void {
+    this.store.deletePartner(partnerId);
   }
 }

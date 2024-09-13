@@ -1,0 +1,16 @@
+<button
+    nz-button
+    nz-popconfirm
+    nzType="default"
+    nzShape="circle"
+    [nzPopconfirmTitle]="title"
+    (click)="confirmed.emit()"
+>
+    <span
+        nz-icon
+        nzType="delete"
+        nzTheme="twotone"
+        nzTwotoneColor="red"
+    >
+    </span>
+</button>

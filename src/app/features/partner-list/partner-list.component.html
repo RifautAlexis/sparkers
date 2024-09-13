@@ -1,2 +1,35 @@
 <h1 class="text-2xl font-bold">Partners</h1>
-{{partners() | json}}
+<nz-table
+    #partnersTable
+    nzShowSizeChanger
+    [nzData]="store.partners()!"
+    [nzLoading]="store.status() === Status.Loading"
+>
+    <thead>
+      <tr>
+        @for (column of columnDefinitions; track $index) {
+            <th
+                [nzSortOrder]="column.sortOrder"
+                [nzSortFn]="column.sortFn"
+                [nzSortDirections]="column.sortDirections"
+                [nzFilterMultiple]="column.filterMultiple"
+                [nzShowFilter]="column.listOfFilter.length > 0"
+                [nzFilters]="column.listOfFilter"
+                [nzFilterFn]="column.filterFn"
+            >
+                {{column.name}}
+            </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+        @for (data of partnersTable.data; track $index) {
+            <tr>
+                <td>{{ data.name }}</td>
+                <td>{{ data.reference }}</td>
+                <td>{{ data.locale }}</td>
+                <td>{{ data.expirationTime }}</td>
+            </tr>
+        }
+    </tbody>
+  </nz-table>

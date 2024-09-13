@@ -1,22 +1,66 @@
-import { JsonPipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Status } from './../../shared/models/status';
+import { Component, inject, signal } from '@angular/core';
+import { PartnerListStoreService } from './services/partner-list.store';
+import { NzTableModule, } from 'ng-zorro-antd/table';
 import { Partner } from './models/partner';
+import { ColumnDefinition } from "../../shared/models/column-definition";
 
 @Component({
     standalone: true,
     templateUrl: './partner-list.component.html',
-    imports: [JsonPipe],
+    imports: [NzTableModule],
 })
-export class PartnerListComponent implements OnInit {
-    private readonly http = inject(HttpClient);
+export class PartnerListComponent {
+    readonly store = inject(PartnerListStoreService);
 
-    partners = signal<Partner[]>([]);
+    Status = Status;
 
-    ngOnInit(): void {
-        this.http.get<any>(`979d68df-a634-439a-a759-f5449137ec5f`).subscribe((response) => {
-            console.log(response);
-            this.partners.set(response);
-        });
+    checked = signal(false);
+    indeterminate = signal(false);
+    listOfCurrentPageData = signal<Partner[]>([]);
+    listOfData = signal<Partner[]>([]);
+    setOfCheckedId = new Set<number>();
+
+    columnDefinitions: ColumnDefinition<Partner>[] = [
+        {
+            name: 'Name',
+            sortOrder: 'ascend',
+            sortFn: (a: Partner, b: Partner) => a.name.localeCompare(b.name),
+            listOfFilter: [],
+            filterFn: null,
+            sortDirections: ['ascend', 'descend', null],
+            filterMultiple: true,
+        },
+        {
+            name: 'Reference',
+            sortOrder: null,
+            sortFn: (a: Partner, b: Partner) => a.name.localeCompare(b.name),
+            listOfFilter: [],
+            filterFn: null,
+            sortDirections: ['ascend', 'descend', null],
+            filterMultiple: true,
+        },
+        {
+            name: 'Country',
+            sortOrder: null,
+            sortFn: null, // (a: Partner, b: Partner) => a.name.localeCompare(b.name),
+            listOfFilter: [],
+            filterFn: null, // (list: Partner[], item: Partner) => list.filter((partner) => partner.country === item.country)
+            sortDirections: ['ascend', 'descend', null],
+            filterMultiple: true,
+        },
+        {
+            name: 'Expiration Date',
+            sortOrder: null,
+            sortFn: (a: Partner, b: Partner) => a.name.localeCompare(b.name),
+            listOfFilter: [],
+            filterFn: null,
+            sortDirections: ['ascend', 'descend', null],
+            filterMultiple: true,
+        },
+    ];
+
+    constructor() {
+        this.store.init();
     }
 }

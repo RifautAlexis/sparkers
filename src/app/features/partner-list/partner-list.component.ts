@@ -12,8 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ConfirmAsyncComponent } from "../../shared/components/confirm-async/confirm-async.component";
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
-import { PartnerCreateComponent } from '../partner-create/partner-create.component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { CreateEditFormComponent } from './components/create-edit-form/create-edit-form.component';
 
 
 @Component({
@@ -136,9 +136,9 @@ export class PartnerListComponent {
   }
 
   openComponent(toEdit?: Partner): void {
-    const drawerRef = this.drawerService.create<PartnerCreateComponent, Partner, Partner>({
+    const drawerRef = this.drawerService.create<CreateEditFormComponent, Partner, Partner>({
       nzTitle: 'User Creation',
-      nzContent: PartnerCreateComponent,
+      nzContent: CreateEditFormComponent,
       nzData: toEdit,
     });
 

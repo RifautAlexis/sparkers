@@ -16,6 +16,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { appInitializerProvider } from './services/app-initializer.service';
 import { httpIntercptor } from './interceptors/http.interceptors';
 import { errorInterceptor } from './interceptors/error.interceptor';
+import { authorizationIntercptor } from './interceptors/authorization.interceptor';
 
 registerLocaleData(fr);
 
@@ -28,6 +29,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(withInterceptors([
       httpIntercptor,
+      authorizationIntercptor,
       errorInterceptor,
     ])),
     ...appInitializerProvider,

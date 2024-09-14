@@ -1,14 +1,18 @@
 <h1 class="text-2xl font-bold">Partners</h1>
 
-<nz-input-group [nzSuffix]="suffixTemplate" class="mb-3">
-    <input
-      type="text"
-      nz-input
-      placeholder="Search Name"
-      [ngModel]="searchValue()"
-      (ngModelChange)="searchValue.set($event)"
-    />
-</nz-input-group>
+<div class="flex space-x-3">
+    <nz-input-group [nzSuffix]="suffixTemplate" class="mb-3">
+        <input
+        type="text"
+        nz-input
+        placeholder="Search Name"
+        [ngModel]="searchValue()"
+        (ngModelChange)="searchValue.set($event)"
+        />
+    </nz-input-group>
+    <button nz-button nzType="primary" (click)="openComponent()">Add User</button>
+</div>
+
 <ng-template #suffixTemplate>
 <span
     nz-icon
@@ -55,7 +59,7 @@
                 <td>{{ data.locale | country }}</td>
                 <td>{{ data.expirationTime | date }}</td>
                 <td nzAlign="center" class="space-x-5">
-                    <span nz-icon nzType="edit" nzTheme="twotone" nzTwotoneColor="blue"></span>
+                    <span nz-icon nzType="edit" nzTheme="twotone" nzTwotoneColor="blue" (click)="openComponent(data)"></span>
                     <app-confirm-async
                         (confirmed)="onDelete(data.id)"
                     ></app-confirm-async>

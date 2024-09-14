@@ -81,14 +81,40 @@ export class PartnerListStoreService {
     }
 
     deletePartner(partnerId: number): void {
-        this.httpPartnerListService.deletePartner(partnerId).subscribe(
-            (_) => {
+        this.httpPartnerListService.deletePartner(partnerId).subscribe({
+            next :(_) => {
                 this.getPartners(this.pageIndex(), this.pageSize());
-                this.notification.openSuccess();
+                this.notification.openSuccess('Partner deleted successfully');
             },
-            (error) => {
+            error: (error) => {
                 console.error(error);
             }
-        );
+        });
+    }
+
+    createPartner(partner: Partner): void {
+        console.log(partner);
+        this.httpPartnerListService.createPartner(partner).subscribe({
+            next :(_) => {
+                this.getPartners(this.pageIndex(), this.pageSize());
+                this.notification.openSuccess('Partner created successfully');
+            },
+            error: (error) => {
+                console.error(error);
+            }
+        });
+    }
+
+    updatePartner(partner: Partner): void {
+        console.log(partner);
+        this.httpPartnerListService.updatePartner(partner).subscribe({
+            next :(_) => {
+                this.getPartners(this.pageIndex(), this.pageSize());
+                this.notification.openSuccess('Partner updated successfully');
+            },
+            error: (error) => {
+                console.error(error);
+            }
+        });
     }
 }

@@ -11,6 +11,9 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { FormsModule } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ConfirmAsyncComponent } from "../../shared/components/confirm-async/confirm-async.component";
+import { NzDrawerService } from 'ng-zorro-antd/drawer';
+import { PartnerCreateComponent } from '../partner-create/partner-create.component';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 
 @Component({
@@ -23,9 +26,11 @@ import { ConfirmAsyncComponent } from "../../shared/components/confirm-async/con
       }
     `,
   ],
-  imports: [NzTableModule, CountryPipe, DatePipe, NzIconModule, FormsModule, NzInputModule, ConfirmAsyncComponent],
+  imports: [NzTableModule, CountryPipe, DatePipe, NzIconModule, FormsModule, NzInputModule, ConfirmAsyncComponent, NzButtonModule],
+  providers: [NzDrawerService],
 })
 export class PartnerListComponent {
+  private readonly drawerService = inject(NzDrawerService);
   readonly store = inject(PartnerListStoreService);
 
   searchValue = signal('');
@@ -128,5 +133,23 @@ export class PartnerListComponent {
 
   onDelete(partnerId: number): void {
     this.store.deletePartner(partnerId);
+  }
+
+  openComponent(toEdit?: Partner): void {
+    const drawerRef = this.drawerService.create<PartnerCreateComponent, Partner, Partner>({
+      nzTitle: 'User Creation',
+      nzContent: PartnerCreateComponent,
+      nzData: toEdit,
+    });
+
+    drawerRef.afterClose.subscribe((data: Partner | undefined) => {
+      if(!data) return;
+
+      if(toEdit) {
+        this.store.updatePartner({...data, id: toEdit.id});
+      } else {
+        this.store.createPartner(data);
+      }
+    });
   }
 }

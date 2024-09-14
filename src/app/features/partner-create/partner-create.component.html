@@ -1,0 +1,78 @@
+<form nz-form class="flex-col" [formGroup]="userForm" (ngSubmit)="submitForm()">
+    <nz-form-item class="flex justify-end">
+      <nz-form-label nzRequired>Name</nz-form-label>
+      <nz-form-control nzHasFeedback [nzErrorTip]="userErrorTpl">
+        <input nz-input formControlName="name" placeholder="please enter user name" />
+        
+        <ng-template #userErrorTpl let-control>
+            @if (control.errors?.['required']) {
+              Please input a name !
+            }
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item class="flex justify-end">
+      <nz-form-label nzRequired>Reference</nz-form-label>
+      <nz-form-control nzHasFeedback [nzErrorTip]="referenceErrorTpl">
+        <input nz-input formControlName="reference" placeholder="please enter user reference" />
+        
+        <ng-template #referenceErrorTpl let-control>
+            @if (control.errors?.['required']) {
+              Please input a reference !
+            }
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item class="flex justify-end">
+        <nz-form-label nzRequired>Country</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="countryErrorTpl">
+          <nz-select
+          nzShowSearch
+          formControlName="locale"
+          nzPlaceHolder="Please select a country"
+        >
+            @for (country of countries; track $index) {
+                <nz-option
+                    [nzLabel]="country.label"
+                    [nzValue]="country.value"
+                ></nz-option>
+            }
+        </nz-select>
+        
+        <ng-template #countryErrorTpl let-control>
+            @if (control.errors?.['required']) {
+              Please select a country !
+            }
+        </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item class="flex justify-end items-end">
+        <nz-form-label nzRequired>Expiration Date</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="expirationTimeErrorTpl">
+            <nz-date-picker
+            formControlName="expirationTime"
+            nzShowTime
+            nzFormat="dd-MM-yyyy HH:mm:ss"
+            nzShowNow="false"
+            [nzDisabledDate]="disabledDate"
+          ></nz-date-picker>
+        
+          <ng-template #expirationTimeErrorTpl let-control>
+            @if (control.errors?.['required']) {
+                Please choose an expiration date !
+              }
+            @if (control.errors?.['notBeforeToday']) {
+                You cannot choose a date in the past !
+            }
+          </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item class="flex justify-end space-x-3">
+        <button nz-button nzType="primary" [disabled]="!userForm.valid">Submit</button>
+        <button nz-button (click)="resetForm($event)">Reset</button>
+    </nz-form-item>
+</form>

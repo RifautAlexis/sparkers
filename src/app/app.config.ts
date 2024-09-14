@@ -15,6 +15,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { appInitializerProvider } from './services/app-initializer.service';
 import { httpIntercptor } from './interceptors/http.interceptors';
+import { errorInterceptor } from './interceptors/error.interceptor';
 
 registerLocaleData(fr);
 
@@ -25,7 +26,10 @@ export const appConfig: ApplicationConfig = {
     provideNzI18n(en_US),
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([httpIntercptor])),
+    provideHttpClient(withInterceptors([
+      httpIntercptor,
+      errorInterceptor,
+    ])),
     ...appInitializerProvider,
     {
       provide: LOCALE_ID, useValue: 'fr-FR'

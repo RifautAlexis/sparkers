@@ -7,6 +7,6 @@ export const httpIntercptor: HttpInterceptorFn = (
     const modifiedRequest = req.clone({
         url: `https://run.mocky.io/v3/${req.url}`
     });
-
+    
     return next(modifiedRequest);
 };

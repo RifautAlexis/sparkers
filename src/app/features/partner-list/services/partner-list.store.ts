@@ -5,6 +5,7 @@ import { Status } from '../../../shared/models/status';
 import { HttpPartnerListService } from './htpp-partner-list.service';
 import { state } from '@angular/animations';
 import { Observable } from 'rxjs';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 const initialState: StateWithPagination<Partner[]> = {
     status: Status.Loading,
@@ -21,6 +22,7 @@ const initialState: StateWithPagination<Partner[]> = {
 })
 export class PartnerListStoreService {
     private readonly httpPartnerListService = inject(HttpPartnerListService);
+    private readonly notification = inject(NotificationService);
 
     private readonly _state = signal<StateWithPagination<Partner[]>>(initialState);
 
@@ -82,6 +84,7 @@ export class PartnerListStoreService {
         this.httpPartnerListService.deletePartner(partnerId).subscribe(
             (_) => {
                 this.getPartners(this.pageIndex(), this.pageSize());
+                this.notification.openSuccess();
             },
             (error) => {
                 console.error(error);

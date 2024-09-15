@@ -27,7 +27,7 @@ jobs:
     - name: Install Dependencies
       run: npm install
     - name: Run Unit Tests
-      run: npm test:ci
+      run: npm run test:ci
     # - name: Run e2e Tests
     #   run: npm e2e:ci
     - name: Build Angular Application

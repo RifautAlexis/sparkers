@@ -38,7 +38,7 @@ export class HttpPartnerListService {
     return this.http.delete<void>(`${url}/${id}`);
   }
 
-  createPartner(toCreate: Partner): Observable<Partner> {
+  createPartner(toCreate: Partial<Partner>): Observable<Partner> {
     const url = randomOccuringError()
       ? getRandomErrorUrl([
           '84432d36-9bc2-4815-9bbc-2bbe16ba1b49', // 500
@@ -50,7 +50,7 @@ export class HttpPartnerListService {
       name: toCreate.name,
       reference: toCreate.reference,
       locale: toCreate.locale,
-      expirationTime: formatDate(toCreate.expirationTime, 'yyyy-MM-ddTHH:mm:ss+00:00', 'en'),
+      expirationTime: formatDate(toCreate.expirationTime!, 'yyyy-MM-ddTHH:mm:ss+00:00', 'en'),
     });
   }
 

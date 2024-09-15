@@ -3,8 +3,6 @@ import { StateWithPagination } from '../../../shared/models/state';
 import { Partner } from '../models/partner';
 import { Status } from '../../../shared/models/status';
 import { HttpPartnerListService } from './htpp-partner-list.service';
-import { state } from '@angular/animations';
-import { Observable } from 'rxjs';
 import { NotificationService } from '../../../shared/services/notification.service';
 
 const initialState: StateWithPagination<Partner[]> = {
@@ -50,7 +48,7 @@ export class PartnerListStoreService {
                 pageSize,
             }
         }));
-
+        
         if(offset >= this.total()) {
             offset = 0;
         } 
@@ -58,31 +56,31 @@ export class PartnerListStoreService {
         this.httpPartnerListService.getPartners(
             offset,
             pageSize
-        ).subscribe(
-            data => {
+        ).subscribe({
+            next: (data) => {
                 this._state.update(state => ({
                     ...state,
                     status: Status.Success,
                     data,
                     pagination: {
                         ...state.pagination,
-                        total: data.length
+                        total: data.length // This is a temporary solution, the total should be the total number of partners in the database
                     }
                 }));
             },
-            error => {
+            error: (error) => {
                 this._state.update(state => ({
                     ...state,
                     status: Status.Error,
                     data: undefined
                 }));
             }
-        );
+        });
     }
 
     deletePartner(partnerId: number): void {
         this.httpPartnerListService.deletePartner(partnerId).subscribe({
-            next :(_) => {
+            next: (_) => {
                 this.getPartners(this.pageIndex(), this.pageSize());
                 this.notification.openSuccess('Partner deleted successfully');
             },
@@ -92,10 +90,9 @@ export class PartnerListStoreService {
         });
     }
 
-    createPartner(partner: Partner): void {
-        console.log(partner);
+    createPartner(partner: Partial<Partner>): void {
         this.httpPartnerListService.createPartner(partner).subscribe({
-            next :(_) => {
+            next: (_) => {
                 this.getPartners(this.pageIndex(), this.pageSize());
                 this.notification.openSuccess('Partner created successfully');
             },
@@ -106,9 +103,8 @@ export class PartnerListStoreService {
     }
 
     updatePartner(partner: Partner): void {
-        console.log(partner);
         this.httpPartnerListService.updatePartner(partner).subscribe({
-            next :(_) => {
+            next: (_) => {
                 this.getPartners(this.pageIndex(), this.pageSize());
                 this.notification.openSuccess('Partner updated successfully');
             },

@@ -5,7 +5,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 export class NotificationService {
     private readonly notification = inject(NzNotificationService);
     
-    openSuccess(message: string = '') {
+    openSuccess(message: string = ''): void {
         this.notification.create(
             'success',
             'Success',
@@ -19,7 +19,7 @@ export class NotificationService {
           );
     }
     
-    openError(message: string = '') {
+    openError(message: string = ''): void {
         this.notification.create(
             'error',
             'Error',

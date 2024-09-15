@@ -35,3 +35,6 @@ export const retryInterceptor: HttpInterceptorFn = (req, next) => {
   );
 };
 ```
+
+### More Unit Tests
+You will find more unit tests in this project (components, guards and a service) : https://github.com/RifautAlexis/angular-playground/tree/main
